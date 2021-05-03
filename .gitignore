@@ -1,0 +1,5 @@
+.env
+venv/
+birthday-bot.zip
+*.pyc
+build/

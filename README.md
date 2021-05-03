@@ -1,8 +1,8 @@
 # Birthday Bot
 
-The script simply needs to be invoked once every 24 hours.  Perhaps via Kubernetes or AWS Lambda + EventBridge
+This script fetches an ICS (Calendar) file, and sends a Discord message listing today's events.
 
-Anywho
+It runs in production on AWS Lambda to minimize costs ;)
 
 ## Python Virtualenv
 
@@ -22,3 +22,8 @@ The .env file requires 5 params:
 `DISCORD_BOT_TOKEN` is the discord bot token
 `ENV` is the environment you're running in.  Set to `live` when running in a live context.
 
+## Build & Deploy (to lambda)
+
+```
+bash build.sh && bash deploy.sh
+```

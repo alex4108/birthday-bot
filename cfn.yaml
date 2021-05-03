@@ -1,0 +1,94 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Template for Lambda Sample.
+Parameters:
+  FunctionPackageS3Bucket:
+    Type: String
+    Description: S3 Bucket for Lambda Package.
+  FunctionPackageS3Key:
+    Type: String
+    Description: S3 Key for Lambda Package.
+  Timestamp:
+    Type: String
+    Description: A bogus parameter to force cloudformation to redeploy.
+  DiscordBotToken:
+    Type: String
+    Description: The Discord Bot token
+  DiscordGuildId:
+    Type: String
+    Description: The Discord Guild ID
+  DiscordChannelId:
+    Type: String
+    Description: The Discord Channel ID
+  IcalUrl:
+    Type: String
+    Description: The URL to the ICS file
+Resources:
+  LambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: birthday-bot-role
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action:
+            - sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service:
+              - lambda.amazonaws.com
+        Version: 2012-10-17
+      Path: /
+      ManagedPolicyArns:
+      - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+  LambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: birthday-bot
+      Description: Birthday Bot to make Discord announcements
+      Runtime: python3.7
+      Code:
+        S3Bucket: 
+          Fn::Sub: ${FunctionPackageS3Bucket}
+        S3Key: 
+          Fn::Sub: ${FunctionPackageS3Key}
+      Handler: birthday-bot.lambda_handler
+      MemorySize: 128
+      Timeout: 90
+      Role:
+        Fn::GetAtt:
+          - LambdaRole
+          - Arn
+      Environment:
+        Variables:
+          DISCORD_BOT_TOKEN:
+            Fn::Sub: ${DiscordBotToken}
+          DISCORD_GUILD_ID:
+            Fn::Sub: ${DiscordGuildId}
+          DISCORD_CHANNEL_ID:
+            Fn::Sub: ${DiscordChannelId}
+          ENV: live
+          ICAL_URL:
+            Fn::Sub: ${IcalUrl}
+  LambdaInvokeRule:
+    Type: AWS::Events::Rule
+    Properties:
+      # 1pm UTC every day (8am Central)
+      ScheduleExpression: cron(0 13 * * ? *) 
+      Targets:
+      - Id: TOLCacheJanitorScheduler
+        Arn:
+          Fn::GetAtt: 
+          - LambdaFunction
+          - Arn
+  InvokeLambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: 
+        Fn::GetAtt:
+        - LambdaFunction
+        - Arn
+      Principal: events.amazonaws.com
+      SourceArn:
+        Fn::GetAtt:
+        - LambdaInvokeRule
+        - Arn

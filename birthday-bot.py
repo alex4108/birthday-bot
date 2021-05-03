@@ -36,7 +36,7 @@ client = discord.Client()
 
 @client.event
 async def on_ready():
-    print(f'{client.user} has connected to Discord!')
+    log.info(f'{client.user} has connected to Discord!')
     log.info("Getting guild w/ ID " + str(DISCORD_GUILD_ID))
     guild = client.get_guild(DISCORD_GUILD_ID)
     log.info("Got guild.")
@@ -45,10 +45,34 @@ async def on_ready():
 
     ics_file = requests.get(ICAL_URL).text
     c = Calendar(ics_file)
-    for event in c.timeline.today():
-        log.info("Got event: " + str(event.name))
-        message = "Today is " + event.name
+
+    todayEvents = 0
+    for e in c.timeline.today():
+        todayEvents = todayEvents + 1
+        if todayEvents > 0:
+            break
+    
+    if todayEvents == 0:
+        await channel.send("There are no events today.  Don't worry, I'll be back tomorrow with another update \U0001f600")
+    else:
+        message =  "\U0001f389 **Today's Events!** \U0001f389 \n"
+        for event in c.timeline.today():
+            if event.name != "":
+                message = message + "\n" + "• " + event.name
+        print(str(message))
+
         await channel.send(message)
 
+    log.info("Disconnecting")
+    await client.close()
+    exit(0)
 
-client.run(DISCORD_BOT_TOKEN)
+def lambda_handler(event, lambda_context):
+    log.info("LAMBDA INVOKED! " + str(event) + " " + str(lambda_context))
+    main()
+
+def main():
+    client.run(DISCORD_BOT_TOKEN)
+
+if __name__ == '__main__':
+    main()
