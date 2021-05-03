@@ -3,4 +3,5 @@ python:
   - 3.8
 script:
   - pip3 install awscli
+  - mkdir -p ~/.aws && echo -e "[default]\nregion = us-east-1" > ~/.aws/config && echo -e "[default]\naws_secret_access_key = ${AWS_SECRET_ACCESS_KEY}\naws_access_key_id = ${AWS_ACCESS_KEY_ID}" > ~/.aws/credentials
   - bash build.sh && bash deploy.sh
