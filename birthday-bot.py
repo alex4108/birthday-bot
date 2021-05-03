@@ -65,11 +65,14 @@ async def on_ready():
 
     log.info("Disconnecting")
     await client.close()
-    exit(0)
+    
+    return None
 
 def lambda_handler(event, lambda_context):
     log.info("LAMBDA INVOKED! " + str(event) + " " + str(lambda_context))
     main()
+    
+    return None
 
 def main():
     client.run(DISCORD_BOT_TOKEN)
