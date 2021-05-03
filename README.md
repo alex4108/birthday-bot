@@ -12,6 +12,7 @@ virtualenv venv
 pip3 install -r requirements.txt
 ```
 
+
 ## dotenv file
 
 The .env file requires 5 params:
@@ -21,6 +22,11 @@ The .env file requires 5 params:
 `DISCORD_GUILD_ID` is the guild ID where to make announcements
 `DISCORD_BOT_TOKEN` is the discord bot token
 `ENV` is the environment you're running in.  Set to `live` when running in a live context.
+
+
+## Running locally
+
+A simple `python3 birthday-bot.py` should get you off the ground, after you've defined the required parameters in the .env file.
 
 ## Build & Deploy (to lambda)
 
