@@ -2,6 +2,8 @@
 
 This script fetches an ICS (Calendar) file, and sends a Discord message listing today's events.
 
+If no events are found for the current day, the bot will message a "random" motivational quote.  Thanks [type.fit](https://type.fit/api/quotes) for the list!
+
 It runs in production on AWS Lambda to minimize costs ;)
 
 ## Python Virtualenv

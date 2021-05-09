@@ -6,6 +6,9 @@ import logging
 import discord
 import os
 import asyncio
+import json
+from datetime import date
+import random
 
 log = initLogger.create(__name__)
 load_dotenv(find_dotenv())
@@ -31,6 +34,19 @@ if DISCORD_BOT_TOKEN == None:
     exit(1)
 
 
+def getRandomQuote():
+    with open("quotes.json") as quotes_file:
+            quotes = json.load(quotes_file)
+            total = int(len(quotes))
+            today_day = int(date.today().strftime("%d"))
+            random_int = random.randint(0, total)
+            pick_one = random_int
+            author = quotes[pick_one]['author']
+            if author == None:
+                author = "Anonymous"
+            message = str(quotes[pick_one]['text']) + " \n - _" + str(author + "_")
+            return message
+
 
 client = discord.Client()
 
@@ -53,7 +69,8 @@ async def on_ready():
             break
     
     if todayEvents == 0:
-        await channel.send("There are no events today.  Don't worry, I'll be back tomorrow with another update \U0001f600")
+        message = getRandomQuote()
+        await channel.send("There are no events today.  Don't worry, I'll be back tomorrow with another update \U0001f600 \n\n" + str(message))
     else:
         message =  "\U0001f389 **Today's Events!** \U0001f389 \n"
         for event in c.timeline.today():
