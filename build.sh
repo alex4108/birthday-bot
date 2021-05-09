@@ -43,6 +43,7 @@ source venv/bin/activate
 $VIRTUAL_ENV/bin/pip3 install -r requirements.txt
 getSitePackagesDir
 zip -r9 ${ORIGINAL_DIR}/birthday-bot.zip birthday-bot.py
+zip -r9 ${ORIGINAL_DIR}/birthday-bot.zip quotes.json
 zip -r9 ${ORIGINAL_DIR}/birthday-bot.zip common/
 cd ./venv/lib/${SITE_PACKAGES_DIR}/site-packages/
 zip -r9 ${ORIGINAL_DIR}/birthday-bot.zip .
