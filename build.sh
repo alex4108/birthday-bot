@@ -36,14 +36,14 @@ rm -rf build/ birthday-bot.zip
 mkdir -p build/
 cd build/
 cp ${ORIGINAL_DIR}/birthday-bot.py .
+cp ${ORIGINAL_DIR}/quotes.json .
 cp ${ORIGINAL_DIR}/requirements.txt .
 cp -r ${ORIGINAL_DIR}/common .
 virtualenv venv
 source venv/bin/activate
 $VIRTUAL_ENV/bin/pip3 install -r requirements.txt
 getSitePackagesDir
-zip -r9 ${ORIGINAL_DIR}/birthday-bot.zip birthday-bot.py
-zip -r9 ${ORIGINAL_DIR}/birthday-bot.zip quotes.json
+zip -r9 ${ORIGINAL_DIR}/birthday-bot.zip birthday-bot.py quotes.json
 zip -r9 ${ORIGINAL_DIR}/birthday-bot.zip common/
 cd ./venv/lib/${SITE_PACKAGES_DIR}/site-packages/
 zip -r9 ${ORIGINAL_DIR}/birthday-bot.zip .
