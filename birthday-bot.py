@@ -70,14 +70,14 @@ async def on_ready():
     
     if todayEvents == 0:
         message = getRandomQuote()
-        await channel.send("There are no events today.  Don't worry, I'll be back tomorrow with another update \U0001f600 \n\n" + str(message))
+        await channel.send(str(message))
     else:
         message =  "\U0001f389 **Today's Events!** \U0001f389 \n"
         for event in c.timeline.today():
             if event.name != "":
                 message = message + "\n" + "• " + event.name
         print(str(message))
-
+        message = message + "\n\n" + getRandomQuote()
         await channel.send(message)
 
     log.info("Disconnecting")
