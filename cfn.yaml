@@ -22,6 +22,9 @@ Parameters:
   IcalUrl:
     Type: String
     Description: The URL to the ICS file
+  TargetTimezone:
+    Type: String
+    Description: The timezone you wish to display messages in
 Resources:
   LambdaRole:
     Type: AWS::IAM::Role
@@ -68,6 +71,8 @@ Resources:
           ENV: live
           ICAL_URL:
             Fn::Sub: ${IcalUrl}
+          TARGET_TIMEZONE: 
+            Fn::Sub: ${TargetTimezone}
   LambdaInvokeRule:
     Type: AWS::Events::Rule
     Properties:

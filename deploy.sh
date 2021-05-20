@@ -27,6 +27,6 @@ aws cloudformation deploy\
     --profile ${AWS_PROFILE_NAME}\
     --stack-name "birthday-bot"\
     --capabilities "CAPABILITY_NAMED_IAM"\
-    --parameter-overrides "FunctionPackageS3Key=${func_pkg_s3key}" "FunctionPackageS3Bucket=${func_pkg_s3bucket}" "DiscordChannelId=${DISCORD_CHANNEL_ID}" "DiscordGuildId=${DISCORD_GUILD_ID}" "DiscordBotToken=${DISCORD_BOT_TOKEN}" "IcalUrl=${ICAL_URL}" "Timestamp=${timestamp}"
+    --parameter-overrides "FunctionPackageS3Key=${func_pkg_s3key}" "FunctionPackageS3Bucket=${func_pkg_s3bucket}" "DiscordChannelId=${DISCORD_CHANNEL_ID}" "DiscordGuildId=${DISCORD_GUILD_ID}" "DiscordBotToken=${DISCORD_BOT_TOKEN}" "IcalUrl=${ICAL_URL}" "TargetTimezone=${TARGET_TIMEZONE}" "Timestamp=${timestamp}"
 
 echo "Complete!"
