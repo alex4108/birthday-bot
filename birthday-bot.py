@@ -124,7 +124,10 @@ async def on_ready():
         message = getRandomQuote()
 
     else:
-        for event in c.timeline.today():
+        today = datetime.today()
+        day_start_localized = localizeTime(today).replace(minute=0,hour=0,second=0)
+        day_end_localized = localizeTime(today).replace(minute=59,hour=23,second=59)
+        for event in c.timeline.included(day_start_localized, day_end_localized):
             print(str(event))
             addEvent = True
 
