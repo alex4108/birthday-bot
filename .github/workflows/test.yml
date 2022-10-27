@@ -53,4 +53,4 @@ jobs:
             kube-manifest.yml
           images: "alex4108/birthday-bot:${{ github.event.pull_request.head.sha }}"
       - name: Run job
-        run: "kubectl -n birthday-bot-test create job --from=cronjob/birthday-bot-test birthday-bot-test-CIRUN-${{ github.event.pull_request.head.sha }}"
+        run: "kubectl -n birthday-bot-test create job --from=cronjob/birthday-bot-test birthday-bot-test-cirun-${{ github.event.pull_request.head.sha }}"
