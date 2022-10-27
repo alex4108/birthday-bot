@@ -1,0 +1,44 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: birthday-bot-live
+  namespace: birthday-bot-live
+spec:
+  schedule: "CRON_TZ=America/Chicago 0 6 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: birthday-bot-live
+            image: alex4108/birthday-bot:GIT_SHA
+            imagePullPolicy: IfNotPresent
+            env:
+            - name: DISCORD_BOT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: birthday-bot-discord-token
+                  key: discord_token
+            - name: DISCORD_GUILD_ID
+              valueFrom:
+                secretKeyRef:
+                  name: birthday-bot
+                  key: guild_id
+            - name: DISCORD_CHANNEL_ID
+              valueFrom:
+                secretKeyRef:
+                  name: birthday-bot
+                  key: channel_id
+            - name: ICAL_URL
+              valueFrom:
+                secretKeyRef:
+                  name: birthday-bot
+                  key: ical_url
+            - name: TARGET_TIMEZONE
+              valueFrom:
+                secretKeyRef:
+                  name: birthday-bot-target-timezone
+                  key: timezone
+            - name: ENV
+              value: live
+          restartPolicy: OnFailure

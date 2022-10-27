@@ -1,12 +1,8 @@
 # Birthday Bot
 
-[![Build Status](https://travis-ci.com/alex4108/birthday-bot.svg?branch=main)](https://travis-ci.com/alex4108/birthday-bot)
-
 This script fetches an ICS (Calendar) file, and sends a Discord message listing today's events.
 
 If no events are found for the current day, the bot will message a "random" motivational quote.  Thanks [type.fit](https://type.fit/api/quotes) for the list!
-
-It runs in production on AWS Lambda to minimize costs ;)
 
 This project was originally developed using Google Calendar.  The values of the ICS format may vary between calendar services.
 
@@ -40,6 +36,23 @@ A simple `python3 birthday-bot.py` should get you off the ground, after you've d
 
 ## Build & Deploy (to lambda)
 
+_This project is no longer deployed via Lambda.  I now use a kubernetes cluster for all my deployments._
+
 ```
 bash build.sh && bash deploy.sh
+```
+
+## Build & Deploy (to kubernetes)
+
+See `.github/workflows/test.yml` for an idea of what it takes to build & deploy to Kubernetes.
+
+#### Sample secret definition
+
+```
+kubectl create secret generic -n birthday-bot-test birthday-bot \
+  --from-literal=discord_token=XX \
+  --from-literal=discord_guild_id=XX \
+  --from-literal=discord_channel_id=XX \
+  --from-literal=ical_url=XX \
+  --from-literal=timezone=XX
 ```
