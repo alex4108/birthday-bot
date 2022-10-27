@@ -1,5 +1,19 @@
 # Birthday Bot
 
+[![Tests](https://github.com/alex4108/birthday-bot/actions/workflows/test.yml/badge.svg)](https://github.com/alex4108/birthday-bot/actions/workflows/test.yml)
+[![Release](https://github.com/alex4108/birthday-bot/actions/workflows/release.yml/badge.svg?branch=main)](https://github.com/alex4108/birthday-bot/actions/workflows/release.yml)
+[![GitHub forks](https://img.shields.io/github/forks/alex4108/birthday-bot)](https://github.com/alex4108/birthday-bot/network)
+[![GitHub stars](https://img.shields.io/github/stars/alex4108/birthday-bot)](https://github.com/alex4108/birthday-bot/stargazers)
+![GitHub contributors](https://img.shields.io/github/contributors/alex4108/birthday-bot)
+[![GitHub license](https://img.shields.io/github/license/alex4108/birthday-bot)](https://github.com/alex4108/birthday-bot/blob/main/LICENSE)
+![GitHub All Releases](https://img.shields.io/github/downloads/alex4108/birthday-bot/total)
+![Docker Pulls](https://img.shields.io/docker/pulls/alex4108/birthday-bot)
+[![Discord](https://img.shields.io/discord/742969076623605830)](https://discord.gg/FpDjFEQ)
+
+![Supports amd64](https://img.shields.io/badge/arch-amd64-brightgreen)
+
+[![Discord Support](https://user-images.githubusercontent.com/7796475/89976812-2628c080-dc2f-11ea-92a1-fe87b6a9cf92.jpg)](https://discord.gg/FpDjFEQ)
+
 This script fetches an ICS (Calendar) file, and sends a Discord message listing today's events.
 
 If no events are found for the current day, the bot will message a "random" motivational quote.  Thanks [type.fit](https://type.fit/api/quotes) for the list!
