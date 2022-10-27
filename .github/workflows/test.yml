@@ -56,6 +56,6 @@ jobs:
         run: "kubectl -n birthday-bot-test create job --from=cronjob/birthday-bot-test cirun-${{ github.event.pull_request.head.sha }}"
       - name: Validate Job
         continue-on-error: true
-        run: "kubectl -n birthday-bot-test wait --for=condition=complete --timeout=30s job/cirun-${{ github.event.pull_request.head.sha }}"
+        run: "kubectl -n birthday-bot-test wait --for=condition=complete --timeout=5m job/cirun-${{ github.event.pull_request.head.sha }}"
       - name: Delete Test Cron
         run: "kubectl -n birthday-bot-test delete cronjob birthday-bot-test"
