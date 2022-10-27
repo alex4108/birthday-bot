@@ -1,0 +1,61 @@
+name: Test Release
+
+on:
+  pull_request:
+    branches: ["main"]
+
+concurrency:
+  group: "test-release"
+  cancel-in-progress: false
+
+permissions: "write-all"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Run Tests
+        run: make docker
+      - name: Push Container
+        run: export BIRTHDAY_BOT_TAG='${{ github.event.pull_request.head.sha }}' && make docker-release
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+      - name: Setup Kubectl
+        uses: Azure/setup-kubectl@v3
+      - name: Login to Azure
+        uses: azure/aks-set-context@v1
+        with:
+          creds: "${{ secrets.AZURE_CREDENTIALS }}"
+          resource-group: "k8s-homelab"
+          cluster-name: "homelab"
+        id: login
+      - name: Replace live with test in Kubernetes manifest
+        run: sed -i 's/live/test/g' kube-manifest.yml
+      - name: Deploy to Kubernetes
+        uses: Azure/k8s-deploy@v4.4
+        timeout-minutes: 5
+        with:
+          action: "deploy"
+          namespace: "birthday-bot-test"
+          strategy: "basic"
+          manifests: |
+            kube-manifest.yml
+          images: "alex4108/birthday-bot:${{ github.event.pull_request.head.sha }}"
+      - name: Run job
+        run: "kubectl -n birthday-bot-test create job --from=cronjob/birthday-bot-test cirun-${{ github.event.pull_request.head.sha }}"
+      - name: Validate Job
+        run: "kubectl -n birthday-bot-test wait --for=condition=complete --timeout=5m job/cirun-${{ github.event.pull_request.head.sha }}"
+      - name: Delete Test Cron
+        if: always()
+        run: "kubectl -n birthday-bot-test delete cronjob birthday-bot-test"
