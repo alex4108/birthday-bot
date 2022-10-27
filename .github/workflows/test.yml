@@ -54,3 +54,5 @@ jobs:
           images: "alex4108/birthday-bot:${{ github.event.pull_request.head.sha }}"
       - name: Run job
         run: "kubectl -n birthday-bot-test create job --from=cronjob/birthday-bot-test cirun-${{ github.event.pull_request.head.sha }}"
+      - name: Validate Job
+        run: "kubectl -n birthday-bot-test wait --for=condition=complete --timeout=30s job/cirun-${{ github.event.pull_request.head.sha }}"

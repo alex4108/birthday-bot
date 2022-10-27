@@ -17,7 +17,7 @@ spec:
             - name: DISCORD_BOT_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: birthday-bot-discord-token
+                  name: birthday-bot
                   key: discord_token
             - name: DISCORD_GUILD_ID
               valueFrom:
@@ -37,7 +37,7 @@ spec:
             - name: TARGET_TIMEZONE
               valueFrom:
                 secretKeyRef:
-                  name: birthday-bot-target-timezone
+                  name: birthday-bot
                   key: timezone
             - name: ENV
               value: live
