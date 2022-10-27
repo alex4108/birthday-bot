@@ -23,12 +23,12 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: birthday-bot
-                  key: guild_id
+                  key: discord_guild_id
             - name: DISCORD_CHANNEL_ID
               valueFrom:
                 secretKeyRef:
                   name: birthday-bot
-                  key: channel_id
+                  key: discord_channel_id
             - name: ICAL_URL
               valueFrom:
                 secretKeyRef:
