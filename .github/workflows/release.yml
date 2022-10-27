@@ -69,7 +69,7 @@ jobs:
           strategy: "basic"
           manifests: |
             kube-manifest.yml
-          images: "alex4108/azure-bot:${{ needs.build.outputs.tag }}"
+          images: "alex4108/birthday-bot:${{ needs.build.outputs.tag }}"
       - name: Create a GitHub release
         uses: ncipollo/release-action@v1
         with:
